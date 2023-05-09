@@ -4,6 +4,8 @@ class BlogPostsController < ApplicationController
 
   def index
     @pagy, @blog_posts = pagy(user_signed_in? ? BlogPost.sorted : BlogPost.sorted.published)
+  rescue Pagy::OverflowError
+    redirect_to root_path(page: 1)
   end
 
   def show
